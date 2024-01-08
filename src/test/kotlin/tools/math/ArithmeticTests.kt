@@ -1,12 +1,12 @@
 package tools.math
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ArithmeticTests {
     @Test
     fun testGcd() {
-        assertEquals(12, gcd( 36, 60))
+        assertEquals(12, gcd(36, 60))
     }
 
     @Test
