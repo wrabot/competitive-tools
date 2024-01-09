@@ -7,3 +7,5 @@ data class PointD(val x: Double = 0.0, val y: Double = 0.0, val z: Double = 0.0)
     operator fun div(factor: Double) = PointD(x / factor, y / factor, z / factor)
     fun norm2() = x * x + y * y
 }
+
+fun String.toPointD() = split(" ").map { it.toDouble() }.run { PointD(get(0), get(1), getOrNull(2) ?: 0.0) }

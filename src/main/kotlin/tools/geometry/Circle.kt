@@ -6,8 +6,10 @@ data class Circle(val center: PointD, val radius2: Double) {
     operator fun contains(point: PointD) = (point - center).norm2() <= radius2
 }
 
+fun circle(center: PointD, radius: Double) = Circle(center, radius * radius)
+
 // Welzl's algorithm
-fun smallestCircle(points: List<PointD>, r: List<PointD>): Circle? {
+fun smallestCircle(points: List<PointD>, r: List<PointD> = emptyList()): Circle? {
     val point = points.firstOrNull()
     if (point == null || r.size == 3) {
         return when (r.size) {
