@@ -1,23 +1,28 @@
 package tools.graph
 
-data class ValuedEdge(val source: Int, val destination: Int, val value: Double)
-
 fun bfs(size: Int, start: Int, block: (Int) -> List<Int>) {
-    val done = BooleanArray(size)
     val todo = mutableListOf(start)
+    val explored = BooleanArray(size)
+    explored[start] = true
     while (true) {
         val current = todo.removeFirstOrNull() ?: break
-        done[current] = true
-        todo.addAll(block(current).filterNot { done[it] })
+        for (next in block(current)) {
+            if (!explored[next]) {
+                explored[next] = true
+                todo.add(next)
+            }
+        }
     }
 }
 
 fun dfs(size: Int, start: Int, block: (Int) -> List<Int>) {
-    val done = BooleanArray(size)
     val todo = mutableListOf(start)
+    val discovered = BooleanArray(size)
     while (true) {
         val current = todo.removeLastOrNull() ?: break
-        done[current] = true
-        todo.addAll(block(current).filterNot { done[it] })
+        if (discovered[current]) continue
+        discovered[current] = true
+        todo.addAll(block(current))
     }
 }
+

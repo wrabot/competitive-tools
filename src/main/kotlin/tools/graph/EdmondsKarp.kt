@@ -1,5 +1,7 @@
 package tools.graph
 
+data class ValuedEdge(val source: Int, val destination: Int, val value: Double)
+
 data class EdmondsKarp(private val size: Int, val edges: List<ValuedEdge>) {
     private val neighbors = edges.indices.groupBy { edges[it].source }
     val flows = Array(size) { DoubleArray(size) }
@@ -34,18 +36,5 @@ data class EdmondsKarp(private val size: Int, val edges: List<ValuedEdge>) {
             todo.clear()
             predecessor.indices.forEach { predecessor[it] = null }
         }
-    }
-
-    fun connected(start: Int): Set<Int> {
-        val connected = mutableSetOf<Int>()
-        bfs(size, start) { current ->
-            connected.add(current)
-            neighbors[current].orEmpty().mapNotNull {
-                val edge = edges[it]
-                val d = edge.destination
-                if (flows[edge.source][d] < edge.value) d else null
-            }
-        }
-        return connected
     }
 }
