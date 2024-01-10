@@ -1,28 +1,37 @@
 package tools.graph
 
-fun bfs(size: Int, start: Int, block: (Int) -> List<Int>) {
+fun List<Triple<Any, Any, Any?>>.toGraphWiz() = joinToString("\n", "digraph {\n", "\n}") {
+    "${it.first} -> ${it.second}" + if (it.third == null) "" else " [label=\"${it.third}\"]"
+}
+
+fun bfs(size: Int, start: Int, block: (Int) -> List<Int>) =
+    search(size, start, MutableList<Int>::removeFirstOrNull, block)
+
+fun dfsLenient(size: Int, start: Int, block: (Int) -> List<Int>) =
+    search(size, start, MutableList<Int>::removeLastOrNull, block)
+
+fun dfsStrict(size: Int, start: Int, block: (Int) -> List<Int>) {
     val todo = mutableListOf(start)
-    val explored = BooleanArray(size)
-    explored[start] = true
+    val visited = BooleanArray(size)
     while (true) {
-        val current = todo.removeFirstOrNull() ?: break
+        val current = todo.removeLastOrNull() ?: break
+        if (visited[current]) continue
+        visited[current] = true
+        todo.addAll(block(current))
+    }
+}
+
+fun search(size: Int, start: Int, removeNextOrNull: MutableList<Int>.() -> Int?, block: (Int) -> List<Int>) {
+    val todo = mutableListOf(start)
+    val discovered = BooleanArray(size)
+    discovered[start] = true
+    while (true) {
+        val current = todo.removeNextOrNull() ?: break
         for (next in block(current)) {
-            if (!explored[next]) {
-                explored[next] = true
+            if (!discovered[next]) {
+                discovered[next] = true
                 todo.add(next)
             }
         }
     }
 }
-
-fun dfs(size: Int, start: Int, block: (Int) -> List<Int>) {
-    val todo = mutableListOf(start)
-    val discovered = BooleanArray(size)
-    while (true) {
-        val current = todo.removeLastOrNull() ?: break
-        if (discovered[current]) continue
-        discovered[current] = true
-        todo.addAll(block(current))
-    }
-}
-
