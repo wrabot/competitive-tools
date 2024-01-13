@@ -1,9 +1,5 @@
 package tools.graph
 
-fun List<Triple<Any, Any, Any?>>.toGraphWiz() = joinToString("\n", "digraph {\n", "\n}") {
-    "${it.first} -> ${it.second}" + if (it.third == null) "" else " [label=\"${it.third}\"]"
-}
-
 fun bfs(size: Int, start: Int, block: (Int) -> List<Int>) =
     search(size, start, MutableList<Int>::removeFirstOrNull, block)
 

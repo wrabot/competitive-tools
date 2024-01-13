@@ -1,8 +1,8 @@
 package tools.graph
 
-data class ValuedEdge(val source: Int, val destination: Int, val value: Double)
+data class EdmondsKarp(private val size: Int, val edges: List<Edge>) {
+    class Edge(val source: Int, val destination: Int, val value: Double)
 
-data class EdmondsKarp(private val size: Int, val edges: List<ValuedEdge>) {
     private val neighbors = edges.indices.groupBy { edges[it].source }
     val flows = Array(size) { DoubleArray(size) }
 
