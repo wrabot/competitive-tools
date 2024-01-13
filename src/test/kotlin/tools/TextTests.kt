@@ -8,8 +8,8 @@ import kotlin.test.assertEquals
 
 class TextTests {
     @Test
-    fun testWord() {
-        val words = "abc_def! hi-jkl \tMoù1p!345   qRSt\n1Z".toWords()
+    fun testWords() {
+        val words = " abc_def! hi-jkl \tMoù1p!345   qRSt\n1Z ".toWords()
         assertEquals(listOf("abc_def!", "hi-jkl", "Moù1p!345", "qRSt", "1Z"), words)
     }
 
