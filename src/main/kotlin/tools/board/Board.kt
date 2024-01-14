@@ -46,5 +46,5 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
         }
 }
 
-fun String.toXY() = split(" ").map { it.toInt() }.run { Board.XY(get(0), get(1)) }
 fun <T> List<String>.toBoard(cell: (Char) -> T) = Board(get(0).length, size, flatMap { it.map(cell) })
+fun String.toXY() = split(" ").map { it.toInt() }.run { Board.XY(get(0), get(1)) }
