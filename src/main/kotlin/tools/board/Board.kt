@@ -1,14 +1,16 @@
 package tools.board
 
 class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
-    val points = (0 until height).flatMap { y ->
-        (0 until width).map { x ->
-            Point(x, y)
-        }
+    data class XY(val x: Int, val y: Int) {
+        operator fun minus(other: XY) = XY(x - other.x, y - other.y)
+        operator fun plus(other: XY) = XY(x + other.x, y + other.y)
+        operator fun times(factor: Int) = XY(x * factor, y * factor)
+        fun manhattan() = kotlin.math.abs(x) + kotlin.math.abs(y)
     }
 
     val xRange = 0 until width
     val yRange = 0 until height
+    val xy = yRange.flatMap { y -> xRange.map { x -> XY(x, y) } }
 
     init {
         if (cells.size != width * height) throw Error("invalid board ${cells.size} !=  $width * $height (${width * height})")
@@ -16,7 +18,7 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
 
     override fun toString() = cells.chunked(width) { it.joinToString("") }.joinToString("\n")
 
-    fun toString(start: Point, end: Point) = cells.chunked(width) {
+    fun toString(start: XY, end: XY) = cells.chunked(width) {
         it.joinToString("").substring(start.x, end.x + 1)
     }.subList(start.y, end.y + 1).joinToString("\n")
 
@@ -25,19 +27,26 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
     operator fun get(x: Int, y: Int) =
         getOrNull(x, y) ?: throw Error("invalid cell : x=$x y=$y width=$width height=$height")
 
-    private fun isValid(point: Point) = isValid(point.x, point.y)
-    fun getOrNull(point: Point) = getOrNull(point.x, point.y)
-    operator fun get(point: Point) = get(point.x, point.y)
+    private fun isValid(xy: XY) = isValid(xy.x, xy.y)
+    fun getOrNull(xy: XY) = getOrNull(xy.x, xy.y)
+    operator fun get(xy: XY) = get(xy.x, xy.y)
 
-    fun neighbors4(point: Point) = directions4.map { point + it }.filter { isValid(it) }
-    fun neighbors8(point: Point) = directions8.map { point + it }.filter { isValid(it) }
 
-    fun zone4(point: Point, predicate: (Point) -> Boolean) =
-        zone(point) { neighbors4(it).filter(predicate) }
+    // TODO replace values with entries when kotlin version will permit it
+    val directions4 = listOf(XY(1, 0), XY(0, -1), XY(-1, 0), XY(0, 1))
+    val directions8 = directions4 + listOf(XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1))
 
-    private fun zone(point: Point, neighbors: (Point) -> List<Point>): Set<Point> =
-        sortedSetOf<Point>({ p1, p2 -> (p2.y - p1.y) * width + p2.x - p1.x }, point).apply {
-            val todo = mutableListOf(point)
+    fun neighbors4(xy: XY) = directions4.map { xy + it }.filter { isValid(it) }
+    fun neighbors8(xy: XY) = directions8.map { xy + it }.filter { isValid(it) }
+
+    fun zone4(xy: XY, predicate: (XY) -> Boolean) = zone(xy) { neighbors4(it).filter(predicate) }
+
+    private fun zone(xy: XY, neighbors: (XY) -> List<XY>): Set<XY> =
+        sortedSetOf<XY>({ p1, p2 -> (p2.y - p1.y) * width + p2.x - p1.x }, xy).apply {
+            val todo = mutableListOf(xy)
             while (true) neighbors(todo.removeFirstOrNull() ?: break).forEach { if (add(it)) todo.add(it) }
         }
 }
+
+fun String.toXY() = split(" ").map { it.toInt() }.run { Board.XY(get(0), get(1)) }
+fun <T> List<String>.toBoard(cell: (Char) -> T) = Board(get(0).length, size, flatMap { it.map(cell) })
