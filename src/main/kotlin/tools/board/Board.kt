@@ -31,8 +31,6 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
     fun getOrNull(xy: XY) = getOrNull(xy.x, xy.y)
     operator fun get(xy: XY) = get(xy.x, xy.y)
 
-
-    // TODO replace values with entries when kotlin version will permit it
     val directions4 = listOf(XY(1, 0), XY(0, -1), XY(-1, 0), XY(0, 1))
     val directions8 = directions4 + listOf(XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1))
 

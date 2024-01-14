@@ -1,4 +1,4 @@
-package tools.board
+package tools.geometry
 
 data class Point(val x: Int = 0, val y: Int = 0, val z: Int = 0) {
     fun rotateX() = Point(x, -z, y)

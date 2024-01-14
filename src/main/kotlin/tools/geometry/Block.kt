@@ -1,4 +1,4 @@
-package tools.board
+package tools.geometry
 
 data class Block(val start: Point, val end: Point) {
     fun intersect(other: Block) =
