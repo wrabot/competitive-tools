@@ -1,4 +1,4 @@
-package tools.math
+package tools.math.tools
 
 import tools.combinations
 import tools.enumerate

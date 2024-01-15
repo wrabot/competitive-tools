@@ -1,12 +1,10 @@
-package tools.geometry
+package tools.board
 
-import tools.board.Board
-import tools.board.Direction4
 import tools.board.Direction8.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Direction {
+class DirectionTests {
     @Test
     fun testDirection4() {
         assertEquals(Direction4.North, Direction4.East.left)

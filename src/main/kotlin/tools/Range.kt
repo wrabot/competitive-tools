@@ -12,8 +12,11 @@ fun List<IntRange>.merge() = mutableListOf<IntRange>().also { merge ->
     sortedBy { it.first }.forEach {
         val last = merge.lastOrNull()
         when {
+            it.isEmpty() -> Unit
             last == null -> merge.add(it)
-            it.first in last -> merge[merge.lastIndex] = last.first..max(last.last, it.last)
+            it.first >= last.first && it.first <= last.last + 1 ->
+                merge[merge.lastIndex] = last.first..max(last.last, it.last)
+
             else -> merge.add(it)
         }
     }

@@ -37,11 +37,10 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
 
     fun zone4(xy: XY, predicate: (XY) -> Boolean) = zone(xy) { neighbors4(it).filter(predicate) }
 
-    private fun zone(start: XY, neighbors: (XY) -> List<XY>): Set<XY> =
-        sortedSetOf(start).apply {
-            val todo = mutableListOf(start)
-            while (true) neighbors(todo.removeFirstOrNull() ?: break).forEach { if (add(it)) todo.add(it) }
-        }
+    private fun zone(start: XY, neighbors: (XY) -> List<XY>): Set<XY> = sortedSetOf(start).apply {
+        val todo = mutableListOf(start)
+        while (true) neighbors(todo.removeFirstOrNull() ?: break).forEach { if (add(it)) todo.add(it) }
+    }
 
     companion object {
         val xy4dir = listOf(XY(1, 0), XY(0, -1), XY(-1, 0), XY(0, 1))
