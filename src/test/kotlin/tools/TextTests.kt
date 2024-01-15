@@ -1,7 +1,5 @@
-package tools.math.tools
+package tools
 
-import tools.match
-import tools.toWords
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

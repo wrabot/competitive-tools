@@ -1,12 +1,9 @@
-package tools.math.tools
+package tools
 
-import tools.logGraph
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-
 class LogTests {
-
     val digraph = """
         digraph {
         0 -> 5 [label="0-5"]

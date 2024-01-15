@@ -27,6 +27,6 @@ class CircleTests {
             846 to 8618,
             1537 to 1197
         ).map { PointD(it.first.toDouble(), it.second.toDouble()) }
-        assertEquals(Circle(PointD(4567.7294627427655, 5020.576008710945), 2.679272956694962E7), smallestCircle(points, emptyList()))
+        assertEquals(circle(PointD(4567.7294627427655, 5020.576008710945), 5176.169391253499), smallestCircle(points, emptyList()))
     }
 }
