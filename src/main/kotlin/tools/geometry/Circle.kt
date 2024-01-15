@@ -15,7 +15,7 @@ fun smallestCircle(points: List<PointD>, r: List<PointD> = emptyList()): Circle?
         return when (r.size) {
             0 -> null
             1 -> Circle(r[0], 0.0)
-            2 -> Circle((r[0] + r[1]) / 2.0, (r[1] - r[0]).norm2() / 4)
+            2 -> Circle((r[0] + r[1]) * 0.5, (r[1] - r[0]).norm2() / 4)
             else -> circumscribedCircle(r[0], r[1], r[2])
         }
     }

@@ -10,4 +10,6 @@ data class Point(val x: Int = 0, val y: Int = 0, val z: Int = 0) {
     fun distance(other: Point) = (this - other).run { kotlin.math.abs(x) + kotlin.math.abs(y) }
 }
 
+val Origin = Point(0, 0, 0)
+
 fun String.toPoint() = split(" ").map { it.toInt() }.run { Point(get(0), get(1), getOrNull(2) ?: 0) }
