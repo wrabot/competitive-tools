@@ -1,5 +1,6 @@
 package tools.geometry
 
+import tools.board.Board
 import tools.board.Direction4
 import tools.board.Direction8.*
 import kotlin.test.Test
@@ -19,6 +20,9 @@ class Direction {
         assertEquals(Direction4.East, Direction4.North.right)
 
         assertEquals(Direction4.North, Direction4.East.turn(-3))
+
+        assertEquals(Board.XY(0, -1), Direction4.North.xy)
+        assertEquals('^', Direction4.North.c)
     }
 
     @Test
@@ -42,5 +46,7 @@ class Direction {
         assertEquals(East, NorthEast.right)
 
         assertEquals(SouthWest, East.turn(-3))
-    }
+
+        assertEquals(Board.XY(-1, -1), NorthWest.xy)
+        assertEquals('F', NorthWest.c)    }
 }
