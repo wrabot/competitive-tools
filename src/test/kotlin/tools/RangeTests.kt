@@ -1,6 +1,5 @@
 package tools
 
-import tools.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -9,6 +8,7 @@ class RangeTests {
     fun testRange() {
         assertEquals(5, (8..12).size())
         assertEquals(11..15, (8..12).move(3))
+        assertEquals(9..12, intRange(8.9..12.7))
         assertEquals(5..9, rangeMinMax(5, 9))
         assertEquals(5..9, rangeMinMax(9, 5))
     }

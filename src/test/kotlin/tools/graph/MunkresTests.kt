@@ -1,6 +1,5 @@
-package tools.math.tools.graph
+package tools.graph
 
-import tools.graph.munkres
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

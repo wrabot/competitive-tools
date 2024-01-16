@@ -1,7 +1,5 @@
 package tools
 
-import tools.combinations
-import tools.enumerate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

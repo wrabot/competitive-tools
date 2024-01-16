@@ -1,8 +1,5 @@
-package tools.math.tools.graph
+package tools.graph
 
-import tools.graph.bfs
-import tools.graph.dfsLenient
-import tools.graph.dfsStrict
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

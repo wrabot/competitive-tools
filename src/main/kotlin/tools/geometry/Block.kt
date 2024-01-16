@@ -1,7 +1,7 @@
 package tools.geometry
 
 data class Block(val start: Point, val end: Point) {
-    fun intersect(other: Block) =
+    infix fun intersect(other: Block) =
         (Point(
             start.x.coerceAtLeast(other.start.x),
             start.y.coerceAtLeast(other.start.y),

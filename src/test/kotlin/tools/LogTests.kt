@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class LogTests {
-    val digraph = """
+    private val digraph = """
         digraph {
         0 -> 5 [label="0-5"]
         0 -> 10 [label="0-10"]
@@ -32,7 +32,7 @@ class LogTests {
             when {
                 s == 0 -> (groupSize until size step groupSize).toList()
                 s % groupSize == 0 -> (group + 1 until group + groupSize).toList()
-                else -> emptyList<Int>()
+                else -> emptyList()
             }.map { Triple(s, it, "$s-$it") }
         }.logGraph()
         assertEquals(digraph, graph)

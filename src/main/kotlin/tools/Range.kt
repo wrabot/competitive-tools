@@ -1,5 +1,7 @@
 package tools
 
+import kotlin.math.ceil
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
@@ -7,7 +9,7 @@ fun IntRange.size() = last - first + 1
 fun IntRange.move(offset: Int) = first + offset..last + offset
 fun IntRange.hasIntersection(other: IntRange) = first in other || last in other || other.first in this
 fun rangeMinMax(a: Int, b: Int) = min(a, b)..max(a, b)
-fun intRange(r: ClosedFloatingPointRange<Double>) = r.start.toInt()..r.endInclusive.toInt()
+fun intRange(r: ClosedFloatingPointRange<Double>) = ceil(r.start).toInt()..floor(r.endInclusive).toInt()
 operator fun IntRange.contains(d: Double) = d >= start && d <= endInclusive
 
 fun List<IntRange>.merge() = mutableListOf<IntRange>().also { merge ->

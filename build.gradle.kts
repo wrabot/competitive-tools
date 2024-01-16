@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "wrabot.competitive"
-version = 0.10
+version = 0.11
 
 repositories {
     mavenCentral()
