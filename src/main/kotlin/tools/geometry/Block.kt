@@ -17,8 +17,4 @@ data class Block(val start: Point, val end: Point) {
     }
 
     private fun check(start: Point, end: Point) = (end - start).run { x >= 0 && y >= 0 && z >= 0 }
-
-    val xRange = start.x..end.x
-    val yRange = start.y..end.y
-    val zRange = start.z..end.z
 }

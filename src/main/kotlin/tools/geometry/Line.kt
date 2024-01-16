@@ -1,8 +1,8 @@
 package tools.geometry
 
-data class LineD(val origin: PointD, val vector: PointD) {
+data class Line(val origin: Point, val vector: Point) {
     // return null or the t of intersection point : origin + vector * t == other.origin + other.vector * u
-    fun intersectXY(other: LineD): Double? {
+    fun intersectXY(other: Line): Double? {
         val dv = vector.x * other.vector.y - vector.y * other.vector.x
         if (dv == 0.0) return null
         val o = other.origin - origin

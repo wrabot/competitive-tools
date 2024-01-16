@@ -2,14 +2,14 @@ package tools.geometry
 
 import tools.math.DoubleMatrix
 
-data class Circle(val center: PointD, val radius2: Double) {
-    operator fun contains(point: PointD) = (point - center).norm2() <= radius2
+data class Circle(val center: Point, val radius2: Double) {
+    operator fun contains(point: Point) = (point - center).norm2() <= radius2
 }
 
-fun circle(center: PointD, radius: Double) = Circle(center, radius * radius)
+fun circle(center: Point, radius: Double) = Circle(center, radius * radius)
 
 // Welzl's algorithm
-fun smallestCircle(points: List<PointD>, r: List<PointD> = emptyList()): Circle? {
+fun smallestCircle(points: List<Point>, r: List<Point> = emptyList()): Circle? {
     val point = points.firstOrNull()
     if (point == null || r.size == 3) {
         return when (r.size) {
@@ -24,14 +24,14 @@ fun smallestCircle(points: List<PointD>, r: List<PointD> = emptyList()): Circle?
     return if (disk != null && point in disk) disk else smallestCircle(remaining, r + point)
 }
 
-fun circumscribedCircle(a: PointD, b: PointD, c: PointD): Circle? {
+fun circumscribedCircle(a: Point, b: Point, c: Point): Circle? {
     val div = DoubleMatrix(3).init(
         a.x, a.y, 1.0,
         b.x, b.y, 1.0,
         c.x, c.y, 1.0,
     ).det() * 2
     if (div == 0.0) return null
-    val center = PointD(
+    val center = Point(
         (DoubleMatrix(3).init(
             a.norm2(), a.y, 1.0,
             b.norm2(), b.y, 1.0,
