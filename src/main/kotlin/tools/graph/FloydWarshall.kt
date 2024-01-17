@@ -1,9 +1,8 @@
 package tools.graph
 
 class FloydWarshall(size: Int, weights: Map<Pair<Int, Int>, Double>) {
-    val indices = 0 until size
+    private val prev = Array(size) { Array<Int?>(size) { null } }
     val dist = Array(size) { DoubleArray(size) { Double.POSITIVE_INFINITY } }
-    val prev = Array(size) { Array<Int?>(size) { null } }
 
     override fun toString() = dist.toList().map { it.toList() }.toString()
 
@@ -12,6 +11,7 @@ class FloydWarshall(size: Int, weights: Map<Pair<Int, Int>, Double>) {
             dist[u][v] = w
             prev[u][v] = u
         }
+        val indices = dist.indices
         for (v in indices) {
             dist[v][v] = 0.0
             prev[v][v] = v
@@ -27,11 +27,12 @@ class FloydWarshall(size: Int, weights: Map<Pair<Int, Int>, Double>) {
                 }
     }
 
-    fun path(u: Int, v: Int) = path(u, v, emptyList())
+    fun path(u: Int, v: Int) = mutableListOf<Int>().apply { path(u, v) }.reversed()
 
-    private tailrec fun path(u: Int, v: Int?, path: List<Int>): List<Int> = when {
-        v == null -> emptyList()
-        u == v -> path
-        else -> path(u, prev[u][v], listOf(v) + path)
+    private tailrec fun MutableList<Int>.path(u: Int, v: Int?) {
+        if (v != null && u != v) {
+            add(v)
+            path(u, prev[u][v])
+        }
     }
 }
