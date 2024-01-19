@@ -27,12 +27,13 @@ class FloydWarshall(size: Int, weights: Map<Pair<Int, Int>, Double>) {
                 }
     }
 
-    fun path(u: Int, v: Int) = mutableListOf<Int>().apply { path(u, v) }.reversed()
-
-    private tailrec fun MutableList<Int>.path(u: Int, v: Int?) {
-        if (v != null && u != v) {
-            add(v)
-            path(u, prev[u][v])
+    fun path(u: Int, v: Int): List<Int>? {
+        val path = mutableListOf<Int>()
+        var current = v
+        while (true) {
+            path.add(current)
+            if (current == u) return path.reversed()
+            current = prev[u][current] ?: return null
         }
     }
 }
