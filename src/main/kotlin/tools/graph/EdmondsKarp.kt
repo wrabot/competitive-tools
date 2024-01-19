@@ -1,40 +1,65 @@
 package tools.graph
 
-data class EdmondsKarp(private val size: Int, val edges: List<Edge>) {
-    class Edge(val source: Int, val destination: Int, val value: Double)
+data class EdmondsKarp(val size: Int, val edges: List<Edge>) {
+    class Edge(val source: Int, val destination: Int, val capacity: Int, var flow: Int = 0) {
+        internal lateinit var rev: Edge
+    }
 
-    private val neighbors = edges.indices.groupBy { edges[it].source }
-    val flows = Array(size) { DoubleArray(size) }
-
-    fun clear() = flows.forEach { it.fill(0.0) }
-
-    fun maxFlow(source: Int, sink: Int): Double {
-        var maxFlow = 0.0
+    fun maxFlow(source: Int, sink: Int): Int {
+        var maxFlow = 0
+        neighbors.forEach { n -> n.forEach { it.flow = 0 } }
         val todo = mutableListOf<Int>()
-        val predecessor = arrayOfNulls<Int>(size)
+        val parent = arrayOfNulls<Edge>(size)
         while (true) {
             todo.add(source)
-            while (predecessor[sink] == null) {
-                val current = todo.removeFirstOrNull() ?: return maxFlow
-                neighbors[current]?.forEach {
-                    val edge = edges[it]
-                    val s = edge.source
-                    val d = edge.destination
-                    if (d != source && predecessor[d] == null && flows[s][d] < edge.value) {
-                        predecessor[d] = it
-                        todo.add(d)
+            while (true) {
+                val current = todo.removeFirstOrNull() ?: break
+                for (edge in neighbors[current]) {
+                    if (parent[edge.destination] == null && edge.destination != source && edge.flow < edge.capacity) {
+                        parent[edge.destination] = edge
+                        todo.add(edge.destination)
                     }
                 }
             }
-            val predecessors = generateSequence(predecessor[sink]) { predecessor[edges[it].source] }.map { edges[it] }
-            val df = predecessors.minOf { it.value - flows[it.source][it.destination] }
-            predecessors.forEach {
-                flows[it.source][it.destination] += df
-                flows[it.destination][it.source] -= df
+            if (parent[sink] == null) break
+            var pushFlow = Int.MAX_VALUE
+            parent.backward(sink) { pushFlow = pushFlow.coerceAtMost(it.capacity - it.flow) }
+            parent.backward(sink) {
+                it.flow += pushFlow
+                it.rev.flow -= pushFlow
             }
-            maxFlow += df
+            maxFlow += pushFlow
             todo.clear()
-            predecessor.indices.forEach { predecessor[it] = null }
+            parent.fill(null)
+        }
+        return maxFlow
+    }
+
+    private val neighbors = Array(size) { mutableListOf<Edge>() }
+
+    init {
+        for (e in edges) {
+            val n = neighbors[e.source]
+            n.add(-n.binarySearch(e.destination) - 1, e)
+        }
+        // add reverse edges (create it if needed)
+        for (e in edges) {
+            val n = neighbors[e.destination]
+            val index = n.binarySearch(e.source)
+            val r = if (index < 0) Edge(e.destination, e.source, 0).also { n.add(-index - 1, it) } else n[index]
+            e.rev = r
+            r.rev = e
         }
     }
+
+    private fun Array<Edge?>.backward(sink: Int, block: (Edge) -> Unit) {
+        var current = sink
+        while (true) {
+            val parent = this[current] ?: return
+            block(parent)
+            current = parent.source
+        }
+    }
+
+    private fun List<Edge>.binarySearch(destination: Int) = binarySearch { it.destination - destination }
 }
