@@ -3,7 +3,7 @@ package tools.geometry
 import tools.math.DoubleMatrix
 
 data class Circle(val center: Point, val radius2: Double) {
-    operator fun contains(point: Point) = (point - center).norm2() <= radius2
+    operator fun contains(point: Point) = (point - center).run { x * x + y * y } <= radius2
 }
 
 fun circle(center: Point, radius: Double) = Circle(center, radius * radius)
@@ -20,8 +20,8 @@ fun smallestCircle(points: List<Point>, r: List<Point> = emptyList()): Circle? {
         }
     }
     val remaining = points.drop(1)
-    val disk = smallestCircle(remaining, r)
-    return if (disk != null && point in disk) disk else smallestCircle(remaining, r + point)
+    val circle = smallestCircle(remaining, r)
+    return if (circle != null && point in circle) circle else smallestCircle(remaining, r + point)
 }
 
 fun circumscribedCircle(a: Point, b: Point, c: Point): Circle? {

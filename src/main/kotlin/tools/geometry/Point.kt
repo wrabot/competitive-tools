@@ -7,7 +7,7 @@ data class Point(val x: Double = 0.0, val y: Double = 0.0, val z: Double = 0.0) 
     operator fun plus(other: Point) = Point(x + other.x, y + other.y, z + other.z)
     operator fun times(factor: Double) = Point(x * factor, y * factor, z * factor)
     fun manhattan() = kotlin.math.abs(x) + kotlin.math.abs(y) + kotlin.math.abs(z)
-    fun norm2() = x * x + y * y
+    fun norm2() = x * x + y * y + z * z
 
     companion object {
         val Zero = Point(0, 0, 0)

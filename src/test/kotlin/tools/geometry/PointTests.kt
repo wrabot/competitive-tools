@@ -12,4 +12,7 @@ class PointTests {
 
     @Test
     fun testManhattan() = assertEquals(6.0, Point(1, -2, 3).manhattan())
+
+    @Test
+    fun testNorm() = assertEquals(14.0, Point(1, -2, 3).norm2())
 }
