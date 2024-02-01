@@ -24,11 +24,13 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
     }.subList(start.y, end.y + 1).joinToString("\n")
 
     private fun isValid(x: Int, y: Int) = x in xRange && y in yRange
+    private fun indexOf(x: Int, y: Int) = if (isValid(x, y)) y * width + x else null
     fun getOrNull(x: Int, y: Int) = if (isValid(x, y)) cells[y * width + x] else null
     operator fun get(x: Int, y: Int) =
         getOrNull(x, y) ?: throw Error("invalid cell : x=$x y=$y width=$width height=$height")
 
     private fun isValid(xy: XY) = isValid(xy.x, xy.y)
+    fun indexOf(xy: XY) = indexOf(xy.x, xy.y)
     fun getOrNull(xy: XY) = getOrNull(xy.x, xy.y)
     operator fun get(xy: XY) = get(xy.x, xy.y)
 
