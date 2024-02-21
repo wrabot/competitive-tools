@@ -52,4 +52,40 @@ class CombinationsTests {
             result
         )
     }
+
+    @Test
+    fun testSubListsAll() {
+        assertEquals(
+            listOf(
+                listOf(),
+                listOf(3),
+                listOf(2),
+                listOf(2, 3),
+                listOf(1),
+                listOf(1, 3),
+                listOf(1, 2),
+                listOf(1, 2, 3),
+            ),
+            listOf(1, 2, 3).subLists().toList()
+        )
+    }
+
+    @Test
+    fun testSubListsBlock() {
+        val subLists = mutableListOf<List<Int>>()
+        listOf(1, 2, 3).subLists { subLists.add(it) }
+        assertEquals(
+            listOf(
+                listOf(),
+                listOf(3),
+                listOf(2),
+                listOf(2, 3),
+                listOf(1),
+                listOf(1, 3),
+                listOf(1, 2),
+                listOf(1, 2, 3),
+            ),
+            subLists
+        )
+    }
 }
