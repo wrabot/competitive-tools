@@ -3,17 +3,17 @@ package tools.graph
 fun <Node : Any> shortPath(
     start: Node,
     end: Node,
-    cost: (origin: Node, destination: Node) -> Double = { _, _ -> 1.0 },
+    cost: (from: Node, to: Node) -> Double = { _, _ -> 1.0 },
     estimatedEndCost: (Node) -> Double = { 0.0 }, // A*
     neighbors: (Node) -> List<Node>
-) = shortPath(start, isEnd = { this == end }, cost, estimatedEndCost, neighbors)
+) = shortPath(start, isEnd = { it == end }, cost, estimatedEndCost, neighbors)
 
 fun <Node : Any> shortPath(
     start: Node,
-    isEnd: Node.() -> Boolean,
-    cost: (origin: Node, destination: Node) -> Double = { _, _ -> 1.0 },
+    isEnd: (Node) -> Boolean,
+    cost: (from: Node, to: Node) -> Double = { _, _ -> 1.0 },
     toEndMinimalCost: (Node) -> Double = { 0.0 }, // A*
-    neighbors: Node.() -> List<Node>
+    neighbors: (Node) -> List<Node>
 ): List<Node> {
     val spStart = ShortPathNode(start, 0.0, toEndMinimalCost(start), true)
     val spNodes = mutableMapOf(start to spStart)
@@ -21,7 +21,7 @@ fun <Node : Any> shortPath(
     while (true) {
         val currentSPNode = todo.removeFirstOrNull() ?: return emptyList()
         currentSPNode.todo = false
-        if (currentSPNode.node.isEnd())
+        if (isEnd(currentSPNode.node))
             return generateSequence(currentSPNode) { it.predecessor }.map { it.node }.toList().reversed()
         neighbors(currentSPNode.node).forEach { nextNode ->
             val newFromStartCost = currentSPNode.fromStartCost + cost(currentSPNode.node, nextNode)
