@@ -1,25 +1,27 @@
 package tools
 
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.min
+// int
 
-fun IntRange.size() = last - first + 1
+val IntRange.size get() = last - first + 1
 fun IntRange.move(offset: Int) = first + offset..last + offset
 fun IntRange.hasIntersection(other: IntRange) = first in other || last in other || other.first in this
-fun rangeMinMax(a: Int, b: Int) = min(a, b)..max(a, b)
-fun intRange(r: ClosedFloatingPointRange<Double>) = ceil(r.start).toInt()..floor(r.endInclusive).toInt()
 operator fun IntRange.contains(d: Double) = d >= start && d <= endInclusive
+fun rangeMinMax(a: Int, b: Int) = a.coerceAtMost(b)..a.coerceAtLeast(b)
+fun intRange(r: ClosedFloatingPointRange<Double>) =
+    kotlin.math.ceil(r.start).toInt()..kotlin.math.floor(r.endInclusive).toInt()
 
-fun List<IntRange>.merge() = mutableListOf<IntRange>().also { merge ->
+// long
+
+val LongRange.size get() = last - first + 1
+
+fun List<LongRange>.merge() = mutableListOf<LongRange>().also { merge ->
     sortedBy { it.first }.forEach {
         val last = merge.lastOrNull()
         when {
             it.isEmpty() -> Unit
             last == null -> merge.add(it)
             it.first >= last.first && it.first <= last.last + 1 ->
-                merge[merge.lastIndex] = last.first..max(last.last, it.last)
+                merge[merge.lastIndex] = last.first..last.last.coerceAtLeast(it.last)
 
             else -> merge.add(it)
         }

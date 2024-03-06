@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 class RangeTests {
     @Test
     fun testRange() {
-        assertEquals(5, (8..12).size())
+        assertEquals(5, (8..12).size)
         assertEquals(11..15, (8..12).move(3))
         assertEquals(9..12, intRange(8.9..12.7))
         assertEquals(5..9, rangeMinMax(5, 9))
@@ -23,7 +23,8 @@ class RangeTests {
     @Suppress("EmptyRange")
     @Test
     fun testMerge() {
-        assertEquals(listOf(1..8, 12..18), listOf(10..3, 1..3, 7..8, 3..6, 12..18, 12..15).merge())
+        val merge = listOf(10L..3, 1L..3, 7L..8, 3L..6, 12L..18, 12L..15).merge()
+        assertEquals(listOf(1L..8, 12L..18), merge)
     }
 
     @Test
