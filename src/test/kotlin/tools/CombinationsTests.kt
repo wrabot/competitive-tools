@@ -88,4 +88,17 @@ class CombinationsTests {
             subLists
         )
     }
+
+
+    @Test
+    fun testSelect() {
+        assertEquals(
+            listOf(
+                listOf(1, 2),
+                listOf(1, 3),
+                listOf(2, 3),
+            ),
+            listOf(1, 2, 3).select(2).toList()
+        )
+    }
 }

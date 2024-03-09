@@ -17,3 +17,9 @@ fun <T> List<T>.subLists(prefix: List<T> = emptyList(), block: (List<T>) -> Unit
         it.subLists(prefix + first(), block)
     }
 }
+
+fun <T> List<T>.select(count: Int): Sequence<List<T>> = when (count) {
+    0 -> sequenceOf(emptyList())
+    size -> sequenceOf(this)
+    else -> subList(0, lastIndex).let { it.select(count) + it.select(count - 1).map { it + last() } }
+}
