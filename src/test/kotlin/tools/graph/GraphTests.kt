@@ -40,31 +40,15 @@ class GraphTests {
     }
 
     @Test
-    fun testDfsStrict() {
+    fun testDfs() {
         val path = mutableListOf<Int>()
-        dfsStrict(size, start) {
+        dfs(size, start) {
             path.add(it)
             fullConnected(it)
         }
         assertEquals(depthFullResult, path)
         path.clear()
-        dfsStrict(size, start) {
-            path.add(it)
-            tree(it)
-        }
-        assertEquals(depthTreeResult, path)
-    }
-
-    @Test
-    fun testDfsLenient() {
-        val path = mutableListOf<Int>()
-        dfsLenient(size, start) {
-            path.add(it)
-            fullConnected(it)
-        }
-        assertEquals(depthFullResult, path)
-        path.clear()
-        dfsLenient(size, start) {
+        dfs(size, start) {
             path.add(it)
             tree(it)
         }
