@@ -15,4 +15,4 @@ data class Point(val x: Double = 0.0, val y: Double = 0.0, val z: Double = 0.0) 
     }
 }
 
-fun String.toPoint() = split(" ").map { it.toDouble() }.run { Point(get(0), get(1), getOrNull(2) ?: 0.0) }
+fun String.toPoint(delimiter: String) = split(delimiter).map { it.toDouble() }.run { Point(get(0), get(1), getOrNull(2) ?: 0.0) }
