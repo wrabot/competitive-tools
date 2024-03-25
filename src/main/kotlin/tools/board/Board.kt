@@ -1,6 +1,9 @@
 package tools.board
 
 class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
+    constructor(width: Int, height: Int, cell: (x: Int, y: Int) -> T) :
+            this(width, height, List(height) { y -> List(width) { x -> cell(x, y) } }.flatten())
+
     data class XY(val x: Int, val y: Int) : Comparable<XY> {
         operator fun minus(other: XY) = XY(x - other.x, y - other.y)
         operator fun plus(other: XY) = XY(x + other.x, y + other.y)

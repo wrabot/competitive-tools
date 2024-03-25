@@ -36,6 +36,11 @@ class BoardTests {
         override fun toString() = d.toString()
     }
 
+    fun testCreate() {
+        val b = Board(4, 4) { x, y -> (y * 4 + x).toString(16) }
+        assertEquals(board.toString(), b.toString())
+    }
+
     @Test
     fun testXY() {
         val xy1 = "3 -7".toXY(" ")
