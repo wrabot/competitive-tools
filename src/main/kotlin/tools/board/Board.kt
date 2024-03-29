@@ -60,4 +60,8 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
 }
 
 fun <T> List<String>.toBoard(cell: (Char) -> T) = Board(get(0).length, size, flatMap { it.map(cell) })
+
+fun <T> List<String>.toBoardXY(cell: (x: Int, y: Int, c: Char) -> T) =
+    Board(get(0).length, size, flatMapIndexed { y, line -> line.mapIndexed { x, c -> cell(x, y, c) } })
+
 fun String.toXY(delimiter: String) = split(delimiter).map { it.toInt() }.run { Board.XY(get(0), get(1)) }

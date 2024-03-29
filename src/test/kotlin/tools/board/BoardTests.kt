@@ -85,4 +85,23 @@ class BoardTests {
     fun testToString() {
         assertEquals(subBoard, board.toString(XY(1, 1), XY(3, 2)))
     }
+
+    @Test
+    fun testToBoard() {
+        val list = mutableListOf<Pair<XY, Char>>()
+        assertEquals(subBoard, subBoard.lines().toBoard { it }.toString())
+        assertEquals(subBoard, subBoard.lines().toBoardXY { x, y, c ->
+            list.add(XY(x, y) to c)
+            c
+        }.toString())
+        val expectedList = listOf(
+            XY(x = 0, y = 0) to '6',
+            XY(x = 1, y = 0) to '7',
+            XY(x = 2, y = 0) to '8',
+            XY(x = 0, y = 1) to 'A',
+            XY(x = 1, y = 1) to 'B',
+            XY(x = 2, y = 1) to 'C'
+        )
+        assertEquals(expectedList, list)
+    }
 }
