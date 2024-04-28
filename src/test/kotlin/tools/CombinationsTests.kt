@@ -36,8 +36,7 @@ class CombinationsTests {
 
     @Test
     fun testEnumerate() {
-        val result = mutableListOf<List<Int>>()
-        enumerate(2, 3) { result.add(it) }
+        val result = enumerate(2, 3) { it }.toList()
         assertEquals(
             listOf(
                 listOf(0, 0, 0),
