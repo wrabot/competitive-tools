@@ -15,7 +15,7 @@ class CombinationsTests {
                 listOf(3, 1, 2),
                 listOf(3, 2, 1),
             ),
-            listOf(1, 2, 3).combinations()
+            listOf(1, 2, 3).combinations().toList()
         )
     }
 
@@ -30,7 +30,7 @@ class CombinationsTests {
                 listOf(3, 1),
                 listOf(3, 2),
             ),
-            listOf(1, 2, 3).combinations(2)
+            listOf(1, 2, 3).combinations(2).toList()
         )
     }
 
