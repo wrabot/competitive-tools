@@ -1,7 +1,7 @@
 package tools
 
 fun <T> List<T>.combinations(length: Int = size): List<List<T>> = if (length <= 0 || isEmpty()) listOf(emptyList()) else
-        flatMap { first -> minus(first).combinations(length - 1).map { listOf(first) + it } }
+    flatMap { first -> minus(first).combinations(length - 1).map { listOf(first) + it } }
 
 fun <T> enumerate(base: Int, length: Int, prefix: List<Int> = emptyList(), block: (List<Int>) -> T): Sequence<T> =
     if (length <= 0) sequenceOf(block(prefix)) else (0 until base).asSequence().flatMap {
@@ -21,5 +21,9 @@ fun <T> List<T>.subLists(prefix: List<T> = emptyList(), block: (List<T>) -> Unit
 fun <T> List<T>.select(count: Int): Sequence<List<T>> = when (count) {
     0 -> sequenceOf(emptyList())
     size -> sequenceOf(this)
-    else -> subList(0, lastIndex).let { it.select(count) + it.select(count - 1).map { it + last() } }
+    else -> {
+        val begin = subList(0, lastIndex)
+        val last = last()
+        begin.select(count) + begin.select(count - 1).map { it + last }
+    }
 }
