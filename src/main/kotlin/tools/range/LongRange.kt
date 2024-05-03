@@ -1,7 +1,5 @@
 package tools.range
 
-val LongRange.size get() = last - first + 1
-
 fun List<LongRange>.merge() = mutableListOf<LongRange>().also { merge ->
     sortedBy { it.first }.forEach {
         val last = merge.lastOrNull()
