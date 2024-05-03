@@ -1,9 +1,9 @@
-package tools
+package tools.sequence
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CombinationsTests {
+class SequenceTests {
     @Test
     fun testCombinationsFull() {
         assertEquals(
@@ -36,7 +36,7 @@ class CombinationsTests {
 
     @Test
     fun testEnumerate() {
-        val result = enumerate(2, 3) { it }.toList()
+        val result = List(2) { it }.enumerate( 3).toList()
         assertEquals(
             listOf(
                 listOf(0, 0, 0),
@@ -53,7 +53,7 @@ class CombinationsTests {
     }
 
     @Test
-    fun testSubListsAll() {
+    fun testSubLists() {
         assertEquals(
             listOf(
                 listOf(),
@@ -66,25 +66,6 @@ class CombinationsTests {
                 listOf(1, 2, 3),
             ),
             listOf(1, 2, 3).subLists().toList()
-        )
-    }
-
-    @Test
-    fun testSubListsBlock() {
-        val subLists = mutableListOf<List<Int>>()
-        listOf(1, 2, 3).subLists { subLists.add(it) }
-        assertEquals(
-            listOf(
-                listOf(),
-                listOf(3),
-                listOf(2),
-                listOf(2, 3),
-                listOf(1),
-                listOf(1, 3),
-                listOf(1, 2),
-                listOf(1, 2, 3),
-            ),
-            subLists
         )
     }
 

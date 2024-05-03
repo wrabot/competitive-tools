@@ -1,4 +1,4 @@
-package tools
+package tools.range
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
