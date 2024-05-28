@@ -4,14 +4,6 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
     constructor(width: Int, height: Int, cell: (x: Int, y: Int) -> T) :
             this(width, height, List(height) { y -> List(width) { x -> cell(x, y) } }.flatten())
 
-    data class XY(val x: Int, val y: Int) : Comparable<XY> {
-        operator fun minus(other: XY) = XY(x - other.x, y - other.y)
-        operator fun plus(other: XY) = XY(x + other.x, y + other.y)
-        operator fun times(factor: Int) = XY(x * factor, y * factor)
-        fun manhattan() = kotlin.math.abs(x) + kotlin.math.abs(y)
-        override fun compareTo(other: XY) = y.compareTo(other.y).let { if (it != 0) it else x.compareTo(other.x) }
-    }
-
     val xRange = 0 until width
     val yRange = 0 until height
     val xy = yRange.flatMap { y -> xRange.map { x -> XY(x, y) } }
@@ -63,5 +55,3 @@ fun <T> List<String>.toBoard(cell: (Char) -> T) = Board(get(0).length, size, fla
 
 fun <T> List<String>.toBoardXY(cell: (x: Int, y: Int, c: Char) -> T) =
     Board(get(0).length, size, flatMapIndexed { y, line -> line.mapIndexed { x, c -> cell(x, y, c) } })
-
-fun String.toXY(delimiter: String) = split(delimiter).map { it.toInt() }.run { Board.XY(get(0), get(1)) }

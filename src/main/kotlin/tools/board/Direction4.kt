@@ -1,10 +1,10 @@
 package tools.board
 
-enum class Direction4(val xy: Board.XY, val c: Char) {
-    East(Board.XY(1, 0), '>'),
-    North(Board.XY(0, -1), '^'),
-    West(Board.XY(-1, 0), '<'),
-    South(Board.XY(0, 1), 'v');
+enum class Direction4(val xy: XY, val c: Char) {
+    East(XY(1, 0), '>'),
+    North(XY(0, -1), '^'),
+    West(XY(-1, 0), '<'),
+    South(XY(0, 1), 'v');
 
     // TODO replace values with entries and check without get()
     fun turn(step: Int) = values().let { it[(ordinal + step).mod(it.size)] }

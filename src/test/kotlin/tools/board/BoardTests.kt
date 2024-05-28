@@ -1,6 +1,5 @@
 package tools.board
 
-import tools.board.Board.XY
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

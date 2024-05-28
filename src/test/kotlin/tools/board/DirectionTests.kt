@@ -19,7 +19,7 @@ class DirectionTests {
 
         assertEquals(Direction4.North, Direction4.East.turn(-3))
 
-        assertEquals(Board.XY(0, -1), Direction4.North.xy)
+        assertEquals(XY(0, -1), Direction4.North.xy)
         assertEquals('^', Direction4.North.c)
     }
 
@@ -45,6 +45,7 @@ class DirectionTests {
 
         assertEquals(SouthWest, East.turn(-3))
 
-        assertEquals(Board.XY(-1, -1), NorthWest.xy)
-        assertEquals('F', NorthWest.c)    }
+        assertEquals(XY(-1, -1), NorthWest.xy)
+        assertEquals('F', NorthWest.c)
+    }
 }
