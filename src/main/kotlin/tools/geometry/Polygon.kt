@@ -1,5 +1,9 @@
 package tools.geometry
 
+import kotlin.math.abs
+import kotlin.math.sign
+import kotlin.math.sqrt
+
 data class Polygon(val points: List<Point>) {
     val area: Double
     val perimeter: Double
@@ -10,27 +14,29 @@ data class Polygon(val points: List<Point>) {
         var previous = points.last()
         for (current in points) {
             a += det(current, previous)
-            p += (current - previous).run { kotlin.math.sqrt(x * x + y * y) }
+            p += (current - previous).run { sqrt(x * x + y * y) }
             previous = current
         }
-        area = kotlin.math.abs(a) / 2
+        area = abs(a) / 2
         perimeter = p
     }
 
-    private val xRange = points.minOf { it.x }..points.maxOf { it.x }
-    private val yRange = points.minOf { it.y }..points.maxOf { it.y }
+    val xRange = points.minOf { it.x }..points.maxOf { it.x }
+    val yRange = points.minOf { it.y }..points.maxOf { it.y }
     operator fun contains(p: Point): Boolean {
         if (p.x !in xRange || p.y !in yRange) return false
         var inside = false
-        var previous = points.last()
-        for (current in points) {
-            val p1 = if (previous.y <= current.y) previous else current
-            val p2 = if (previous.y <= current.y) current else previous
-            if (p.y in p1.y..p2.y) when (kotlin.math.sign(det(p - p1, p2 - p1))) {
+        var p1 = points.last()
+        for (p2 in points) {
+            if (p == p2) return true
+            val d = p2 - p1
+            if (d.y == 0.0) {
+                if (p.y == p1.y && p.x > p1.x != p.x > p2.x) return true
+            } else if (p.y > p1.y != p.y > p2.y) when (det(p - p1, d).sign) {
                 0.0 -> return true
-                1.0 -> inside = !inside
+                d.y.sign -> inside = !inside
             }
-            previous = current
+            p1 = p2
         }
         return inside
     }
