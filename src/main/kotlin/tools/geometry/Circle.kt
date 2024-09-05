@@ -1,5 +1,6 @@
 package tools.geometry
 
+import tools.Point
 import tools.math.DoubleMatrix
 
 data class Circle(val center: Point, val radius2: Double) {

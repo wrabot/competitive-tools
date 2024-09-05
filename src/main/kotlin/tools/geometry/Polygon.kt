@@ -1,5 +1,6 @@
 package tools.geometry
 
+import tools.Point
 import kotlin.math.abs
 import kotlin.math.sign
 import kotlin.math.sqrt

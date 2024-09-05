@@ -1,4 +1,4 @@
-package tools.board
+package tools
 
 data class XY(val x: Int, val y: Int) : Comparable<XY> {
     operator fun minus(other: XY) = XY(x - other.x, y - other.y)

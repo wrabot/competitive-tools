@@ -1,5 +1,7 @@
 package tools.geometry
 
+import tools.Point
+
 data class Block(val start: Point, val end: Point) {
     infix fun intersect(other: Block) =
         (Point(

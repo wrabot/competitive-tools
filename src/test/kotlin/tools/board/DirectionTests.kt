@@ -1,6 +1,7 @@
 package tools.board
 
 import tools.board.Direction8.*
+import tools.XY
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

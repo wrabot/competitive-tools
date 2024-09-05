@@ -1,5 +1,7 @@
 package tools.board
 
+import tools.XY
+
 class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
     constructor(width: Int, height: Int, cell: (x: Int, y: Int) -> T) :
             this(width, height, List(height) { y -> List(width) { x -> cell(x, y) } }.flatten())

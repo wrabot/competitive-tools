@@ -1,5 +1,7 @@
 package tools.board
 
+import tools.XY
+
 enum class Direction8(val xy: XY, val c: Char) {
     East(XY(1, 0), '>'),
     NorthEast(XY(1, -1), '7'),

@@ -1,5 +1,6 @@
 package tools.geometry
 
+import tools.Point
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

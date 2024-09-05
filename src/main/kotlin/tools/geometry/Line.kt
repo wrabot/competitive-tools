@@ -1,5 +1,7 @@
 package tools.geometry
 
+import tools.Point
+
 data class Line(val origin: Point, val vector: Point) {
     // return null or the t of intersection point : origin + vector * t == other.origin + other.vector * u
     infix fun intersectXY(other: Line): Double? {

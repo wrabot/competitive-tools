@@ -1,4 +1,4 @@
-package tools.geometry
+package tools
 
 data class Point(val x: Double = 0.0, val y: Double = 0.0, val z: Double = 0.0) {
     constructor(x: Int = 0, y: Int = 0, z: Int = 0) : this(x.toDouble(), y.toDouble(), z.toDouble())
