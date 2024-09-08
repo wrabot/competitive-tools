@@ -1,7 +1,7 @@
 package tools.board
 
 import tools.XY
-import tools.toXY
+import tools.graph.zone
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,38 +18,23 @@ class BoardTests {
     """.trimIndent()
 
     private val zoneIn = """
-    2199943210
-    3987894921
-    9856789892
-    8767896789
-    9899965678
+        2199943210
+        3987894921
+        9856789892
+        8767896789
+        9899965678
     """.trimIndent()
 
     private val zoneOut = """
-    2199943210
-    3980894921
-    9800089892
-    8000896789
-    9899965678
+        2199943210
+        3980894921
+        9800089892
+        8000896789
+        9899965678
     """.trimIndent()
 
     private data class Cell(var d: Int) {
         override fun toString() = d.toString()
-    }
-
-    fun testCreate() {
-        val b = Board(4, 4) { x, y -> (y * 4 + x).toString(16) }
-        assertEquals(board.toString(), b.toString())
-    }
-
-    @Test
-    fun testXY() {
-        val xy1 = "3 -7".toXY(" ")
-        val xy2 = XY(3, 8)
-        assertEquals(10, xy1.manhattan())
-        assertEquals(XY(6, 1), xy1 + xy2)
-        assertEquals(XY(0, -15), xy1 - xy2)
-        assertEquals(XY(9, -21), xy1 * 3)
     }
 
     @Test
@@ -78,7 +63,7 @@ class BoardTests {
     @Test
     fun testZone4() {
         val b = zoneIn.lines().toBoard { Cell(it - '0') }
-        b.zone4(XY(3, 2)) { b[it].d < 8 }.forEach { b[it].d = 0 }
+        zone(XY(3, 2)) { xy -> b.neighbors4(xy).filter { b[it].d < 8 } }.forEach { b[it].d = 0 }
         assertEquals(zoneOut, b.toString())
     }
 

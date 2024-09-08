@@ -1,4 +1,4 @@
-package tools.geometry
+package tools
 
 import tools.Point
 import tools.toPoint

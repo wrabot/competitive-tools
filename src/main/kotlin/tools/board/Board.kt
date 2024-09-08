@@ -31,26 +31,8 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
     fun getOrNull(xy: XY) = getOrNull(xy.x, xy.y)
     operator fun get(xy: XY) = get(xy.x, xy.y)
 
-    fun neighbors4(xy: XY) = xy4dir.map { xy + it }.filter { isValid(it) }
-    fun neighbors8(xy: XY) = xy8dir.map { xy + it }.filter { isValid(it) }
-
-    fun zone4(xy: XY, predicate: (XY) -> Boolean) = zone(xy) { neighbors4(it).filter(predicate) }
-
-    private fun zone(start: XY, neighbors: (XY) -> List<XY>): List<XY> = mutableListOf(start).apply {
-        val todo = mutableListOf(start)
-        while (true) neighbors(todo.removeFirstOrNull() ?: break).forEach {
-            val search = binarySearch(it)
-            if (search < 0) {
-                add(-search - 1, it)
-                todo.add(it)
-            }
-        }
-    }
-
-    companion object {
-        val xy4dir = listOf(XY(1, 0), XY(0, -1), XY(-1, 0), XY(0, 1))
-        val xy8dir = xy4dir + listOf(XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1))
-    }
+    fun neighbors4(xy: XY) = XY.xy4dir.map { xy + it }.filter { isValid(it) }
+    fun neighbors8(xy: XY) = XY.xy8dir.map { xy + it }.filter { isValid(it) }
 }
 
 fun <T> List<String>.toBoard(cell: (Char) -> T) = Board(get(0).length, size, flatMap { it.map(cell) })
