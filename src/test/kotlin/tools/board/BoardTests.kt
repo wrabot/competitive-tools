@@ -33,10 +33,6 @@ class BoardTests {
         9899965678
     """.trimIndent()
 
-    private data class Cell(var d: Int) {
-        override fun toString() = d.toString()
-    }
-
     @Test
     fun testData() {
         val b = board
@@ -62,8 +58,8 @@ class BoardTests {
 
     @Test
     fun testZone4() {
-        val b = zoneIn.lines().toBoard { Cell(it - '0') }
-        zone(XY(3, 2)) { xy -> b.neighbors4(xy).filter { b[it].d < 8 } }.forEach { b[it].d = 0 }
+        val b = zoneIn.lines().toBoard { CharCell(it) }
+        zone(XY(3, 2)) { xy -> b.neighbors4(xy).filter { b[it].c < '8' } }.forEach { b[it].c = '0' }
         assertEquals(zoneOut, b.toString())
     }
 
