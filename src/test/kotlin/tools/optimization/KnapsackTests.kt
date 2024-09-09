@@ -1,4 +1,4 @@
-package optimization
+package tools.optimization
 
 import tools.optimization.knapsackContent
 import tools.optimization.knapsackValue
