@@ -1,7 +1,5 @@
 package tools
 
-import tools.Point
-import tools.toPoint
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -1,6 +1,5 @@
 package tools.ai
 
-import tools.log
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
