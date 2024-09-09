@@ -31,8 +31,8 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
     fun getOrNull(xy: XY) = getOrNull(xy.x, xy.y)
     operator fun get(xy: XY) = get(xy.x, xy.y)
 
-    fun neighbors4(xy: XY) = XY.xy4dir.map { xy + it }.filter { isValid(it) }
-    fun neighbors8(xy: XY) = XY.xy8dir.map { xy + it }.filter { isValid(it) }
+    fun neighbors4(xy: XY) = xy.neighbors4().filter { isValid(it) }
+    fun neighbors8(xy: XY) = xy.neighbors8().filter { isValid(it) }
 }
 
 fun <T> List<String>.toBoard(cell: (Char) -> T) = Board(get(0).length, size, flatMap { it.map(cell) })

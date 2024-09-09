@@ -15,5 +15,5 @@ fun CharBoard.getOrNull(xy: XY) = getOrNull(xy.y)?.getOrNull(xy.x)
 operator fun CharBoard.get(xy: XY): Char = get(xy.y)[xy.x]
 operator fun CharBoard.set(xy: XY, c: Char) = get(xy.y).set(xy.x, c)
 
-fun CharBoard.neighbors4(xy: XY) = XY.xy4dir.map { xy + it }.filter { getOrNull(it) != null }
-fun CharBoard.neighbors8(xy: XY) = XY.xy8dir.map { xy + it }.filter { getOrNull(it) != null }
+fun CharBoard.neighbors4(xy: XY) = xy.neighbors4().filter { getOrNull(it) != null }
+fun CharBoard.neighbors8(xy: XY) = xy.neighbors8().filter { getOrNull(it) != null }
