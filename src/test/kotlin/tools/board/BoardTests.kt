@@ -34,6 +34,13 @@ class BoardTests {
     """.trimIndent()
 
     @Test
+    fun testCreate() {
+        val lines = zoneIn.lines()
+        val b = Board(10, 5) { x, y -> lines[y][x] }
+        assertEquals(zoneIn, b.toString())
+    }
+
+    @Test
     fun testData() {
         val b = board
         assertEquals(4, b.width)

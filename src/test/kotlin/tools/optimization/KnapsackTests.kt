@@ -1,7 +1,5 @@
 package tools.optimization
 
-import tools.optimization.knapsackContent
-import tools.optimization.knapsackValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
