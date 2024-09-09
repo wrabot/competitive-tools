@@ -71,6 +71,12 @@ class BoardTests {
     }
 
     @Test
+    fun testToLines() {
+        val b = zoneIn.lines().toBoard { CharCell(it) }
+        assertEquals(zoneIn.lines(), b.toLines())
+    }
+
+    @Test
     fun testToString() {
         assertEquals(subBoard, board.toString(XY(1, 1), XY(3, 2)))
     }

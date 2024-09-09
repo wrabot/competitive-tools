@@ -15,7 +15,7 @@ fun <T, U> Board<T>.toGraph(
         val todo = mutableListOf(index)
         while (true) {
             val current = todo.removeFirstOrNull() ?: break
-            for (next in neighbors4(xy[current]).mapNotNull { indexOf(it) }) {
+            for (next in xy[current].neighbors4().mapNotNull { indexOf(it) }) {
                 val c = cells[next]
                 if (c.isWall()) continue
                 var nextPath = paths[next]
