@@ -1,9 +1,13 @@
 package tools
 
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
+import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LogTests {
+class DebugTests {
+    private val stderr = System.err
     private val digraph = """
         digraph {
         0 -> 5 [label="0-5"]
@@ -23,8 +27,15 @@ class LogTests {
         15 -> 19 [label="15-19"]
         }""".trimIndent()
 
+    @AfterTest
+    fun afterTest() {
+        System.setErr(stderr)
+    }
+
     @Test
     fun testGraphWiz() {
+        val output = ByteArrayOutputStream()
+        System.setErr(PrintStream(output, true))
         val size = 20
         val groupSize = 5
         val graph = (0 until size).flatMap { s ->
@@ -34,7 +45,8 @@ class LogTests {
                 s % groupSize == 0 -> (group + 1 until group + groupSize).toList()
                 else -> emptyList()
             }.map { Triple(s, it, "$s-$it") }
-        }.logGraph()
+        }.debugGraph()
         assertEquals(digraph, graph)
+        assertEquals(digraph + '\n', output.toString())
     }
 }
