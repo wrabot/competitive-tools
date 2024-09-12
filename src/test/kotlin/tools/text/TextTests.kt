@@ -1,10 +1,16 @@
-package tools
+package tools.text
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
 class TextTests {
+    @Test
+    fun testInts() {
+        val integers = " 4 8 2 6 1 ".toInts()
+        assertEquals(listOf(4, 8, 2, 6, 1), integers)
+    }
+
     @Test
     fun testWords() {
         val words = " abc_def! hi-jkl \tMoù1p!345   qRSt\n1Z ".toWords()
