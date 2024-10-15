@@ -1,40 +1,95 @@
 package tools.ai
 
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.random.Random
 
-interface GAIndividual<T> {
-    val fitness: Float
-    fun crossover(other: T, random: Random): List<T>
-    fun mutate(random: Random): T
-}
+@Suppress("MemberVisibilityCanBePrivate")
+open class Genetic<G>(
+    val genesSize: Int,
+    val gene: Random.(geneIndex: Int) -> G,
+    val crossoverOperator: CrossoverOperator = CrossoverOperator.Mono,
+    val crossover: (G, G) -> Pair<G, G> = { a, b -> b to a },
+    val random: Random = Random.Default,
+    val fitness: (List<G>) -> Float,
+) {
+    inner class Individual(val genes: List<G>) {
+        constructor() : this(List(genesSize) { random.gene(it) })
 
-fun <T : GAIndividual<T>> List<T>.evolve(
-    epochs: Int,
-    keepBest: Boolean = true,
-    mutationProbability: Float = 0.1f,
-    selection: (List<T>, Random) -> () -> T = ::rouletteWheelSelection,
-    random: Random = Random.Default,
-): List<T> {
-    var sortedPopulation = sortedByDescending { it.fitness }
-    val next = mutableListOf<T>()
-    repeat(epochs) {
-        if (keepBest) next.add(sortedPopulation.first())
-        val select = selection(sortedPopulation, random)
-        while (next.size < size)
-            next.addAll(select().crossover(select(), random).map {
-                if (random.nextFloat() <= mutationProbability) it.mutate(random) else it
-            })
-        next.sortByDescending { it.fitness }
-        sortedPopulation = next.take(sortedPopulation.size)
-        next.clear()
+        init {
+            require(genes.size == genesSize) { "Invalid gene size" }
+        }
+
+        val fitness = fitness(genes)
+
+        fun shift(n: Int) = Individual(genes.indices.map { if (it < genesSize - n) genes[it + n] else random.gene(it) })
     }
-    return sortedPopulation
-}
 
-private fun <T : GAIndividual<T>> rouletteWheelSelection(sortedPopulation: List<T>, random: Random): () -> T {
-    val levels = sortedPopulation.map { it.fitness }.runningReduce { acc, f -> acc + f }
-    return {
-        val level = levels.last() * random.nextFloat()
-        sortedPopulation[-levels.binarySearch { if (level <= it) 1 else -1 } - 1]
+    enum class CrossoverOperator(val selector: (Int, Random) -> Selector) {
+        Mono({ size, random ->
+            val index = random.nextInt(size)
+            Selector { it < index }
+        }),
+        Multi({ size, random ->
+            val i = random.nextInt(size)
+            val j = random.nextInt(size)
+            val range = min(i, j)..max(i, j)
+            Selector { it in range }
+        }),
+        Uniform({ _, random -> Selector { random.nextBoolean() } });
+
+        fun interface Selector {
+            operator fun invoke(index: Int): Boolean
+        }
+    }
+
+    fun evolve(
+        population: List<Individual>,
+        epochs: Int,
+        keepBest: Boolean = true,
+        mutationProbability: Float = 0.1f
+    ): List<Individual> {
+        var current = population.toMutableList()
+        var next = mutableListOf<Individual>()
+        repeat(epochs) {
+            if (keepBest) next.add(current.maxBy { it.fitness })
+            val select = selection(current, random)
+            while (next.size < population.size) crossover(select().toMutableList(), select().toMutableList(), random) {
+                if (random.nextFloat() < mutationProbability) mutate(it, random)
+                val child = Individual(it)
+                if (child.fitness > 0) next.add(child)
+            }
+            current = next.also { next = current }
+            next.clear()
+        }
+        return current
+    }
+
+    open fun selection(population: List<Individual>, random: Random): () -> List<G> =
+        rouletteWheelSelection(population, random)
+
+    open fun crossover(a: MutableList<G>, b: MutableList<G>, random: Random, child: (MutableList<G>) -> Unit) {
+        val selector = crossoverOperator.selector(genesSize, random)
+        for (i in a.indices) if (selector(i)) {
+            val (ga, gb) = crossover(a[i], b[i])
+            a[i] = ga
+            b[i] = gb
+        }
+        child(a)
+        child(b)
+    }
+
+    open fun mutate(genes: MutableList<G>, random: Random) {
+        val index = random.nextInt(genesSize)
+        genes[index] = gene(random, index)
+    }
+
+    private fun rouletteWheelSelection(population: List<Individual>, random: Random): () -> List<G> {
+        val levels = population.map { it.fitness }.runningReduce { acc, f -> acc + f }
+        val total = levels.last()
+        return {
+            val level = total * random.nextFloat()
+            population[-levels.binarySearch { if (it < level) -1 else 1 } - 1].genes
+        }
     }
 }
