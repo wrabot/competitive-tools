@@ -1,5 +1,10 @@
 package tools.math
 
+import tools.math.double.isNotNul
+import tools.math.double.isNul
+import kotlin.math.abs
+import kotlin.math.min
+
 class DoubleMatrix(val height: Int, val width: Int = height) {
     private val cells = DoubleArray(height * width)
 
@@ -14,47 +19,53 @@ class DoubleMatrix(val height: Int, val width: Int = height) {
         }
     }
 
-    fun init(vararg values: Double) = apply {
+    fun init(vararg values: Double) = init(values.toList())
+    fun init(values: List<Double>) = apply {
         require(values.size == width * height) { "Invalid init: ${values.size} == ${height * width}" }
         values.forEachIndexed { index, value -> cells[index] = value }
     }
 
-    fun onEach(block: (r: Int, c: Int, v: Double) -> Unit) = apply {
+    fun init(action: (r: Int, c: Int) -> Double) = apply {
         repeat(height) { r ->
             repeat(width) { c ->
-                block(r, c, this[r, c])
+                this[r, c] = action(r, c)
             }
         }
     }
 
-    // https://en.wikipedia.org/wiki/Bareiss_algorithm
-    fun det(): Double {
-        require(width == height) { "det: invalid matrix $height $width" }
-        var sign = 1
-        var d = 1.0
-        val m = copy()
-        val rows = IntArray(height) { it }
-        repeat(height - 1) { k ->
-            if (m[rows[k], k] == 0.0) {
-                var l = k + 1
-                while (true) {
-                    if (m[rows[l], k] != 0.0) {
-                        rows[l] = rows[k].also { rows[k] = rows[l] }
-                        sign = -sign
-                        break
-                    }
-                    if (++l == height) return 0.0
-                }
+    fun onEach(action: (r: Int, c: Int, v: Double) -> Unit) = apply {
+        repeat(height) { r ->
+            repeat(width) { c ->
+                action(r, c, this[r, c])
             }
-            val p = m[rows[k], k]
-            for (i in k + 1 until height)
-                for (j in k + 1 until height)
-                    m[rows[i], j] = (p * m[rows[i], j] - m[rows[i], k] * m[rows[k], j]) / d
-            d = p
         }
-        return sign * m[rows[height - 1], height - 1]
     }
 
+    fun det() = gaussJordan(true)
+
+    fun gaussJordan(partial: Boolean = false): Double {
+        var det = 1.0
+        for (i in 0 until min(height, width)) {
+            val m = (i until height).maxBy { abs(get(it, i)) }
+            if (i != m) {
+                det = -det
+                for (k in i until width) set(i, k, get(m, k).also { set(m, k, get(i, k)) })
+            }
+            val a = get(i, i)
+            if (a.isNul()) continue
+            if ((a - 1.0).isNotNul()) {
+                det *= a
+                for (k in i until width) set(i, k, get(i, k) / a)
+            }
+            val r = if (partial) i + 1 until height else heightRange
+            for (j in r) {
+                if (j == i) continue
+                val b = get(j, i)
+                if (b.isNotNul()) for (k in i until width) set(j, k, get(j, k) - b * get(i, k))
+            }
+        }
+        return det
+    }
 
     fun copy() = DoubleMatrix(width, height).also { matrix ->
         cells.indices.forEach { matrix.cells[it] = cells[it] }

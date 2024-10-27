@@ -6,6 +6,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class DoubleMatrixTests {
+    val tolerance = 0.0000000000001
     @Test
     fun testDeterminant() {
         assertEquals(
@@ -13,7 +14,8 @@ class DoubleMatrixTests {
             DoubleMatrix(2).init(
                 1.0, 4.0,
                 2.0, 9.0,
-            ).det()
+            ).det(),
+            tolerance
         )
         assertEquals(
             -19.0,
@@ -21,7 +23,8 @@ class DoubleMatrixTests {
                 4.0, 5.0, 1.0,
                 9.0, 8.0, 2.0,
                 7.0, 6.0, 3.0,
-            ).det()
+            ).det(),
+            tolerance
         )
         assertEquals(
             81.0,
@@ -29,7 +32,8 @@ class DoubleMatrixTests {
                 9.0, 8.0, 2.0,
                 0.0, 5.0, 1.0,
                 0.0, 6.0, 3.0,
-            ).det()
+            ).det(),
+            tolerance
         )
         assertEquals(
             -81.0,
@@ -37,7 +41,8 @@ class DoubleMatrixTests {
                 0.0, 5.0, 1.0,
                 9.0, 8.0, 2.0,
                 0.0, 6.0, 3.0,
-            ).det()
+            ).det(),
+            tolerance
         )
         assertEquals(
             81.0,
@@ -45,16 +50,18 @@ class DoubleMatrixTests {
                 0.0, 5.0, 1.0,
                 0.0, 6.0, 3.0,
                 9.0, 8.0, 2.0,
-            ).det()
+            ).det(),
+            tolerance
         )
         assertEquals(
+            108.0,
             DoubleMatrix(4).init(
                 2.0, 4.0, 5.0, 6.0,
                 -1.0, 5.0, 6.0, 9.0,
                 3.0, 7.0, 1.0, -6.0,
                 4.0, -2.0, 3.0, 5.0,
             ).det(),
-            108.0
+            tolerance
         )
     }
 
