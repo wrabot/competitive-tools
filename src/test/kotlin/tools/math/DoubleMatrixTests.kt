@@ -1,12 +1,13 @@
 package tools.math
 
+import org.junit.jupiter.api.assertThrows
+import tools.math.gj.det
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class DoubleMatrixTests {
-    val tolerance = 0.0000000000001
+    private val tolerance = 0.0000000000001
+
     @Test
     fun testDeterminant() {
         assertEquals(
@@ -112,11 +113,10 @@ class DoubleMatrixTests {
     }
 
     @Test
-    fun testValid() {
-        DoubleMatrix(4, 3).run {
-            heightRange.onEach { r -> widthRange.onEach { c -> assertTrue(isValid(r, c)) } }
-            assertFalse(isValid(height, 0))
-            assertFalse(isValid(0, width))
+    fun testWidth() {
+        assertThrows<IllegalArgumentException> {
+            DoubleMatrix(listOf(DoubleArray(2), DoubleArray(1)))
         }
+        assertEquals(3, DoubleMatrix(10,4).widthRange.last)
     }
 }

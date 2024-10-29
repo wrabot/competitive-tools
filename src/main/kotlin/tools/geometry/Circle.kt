@@ -2,6 +2,7 @@ package tools.geometry
 
 import tools.Point
 import tools.math.DoubleMatrix
+import tools.math.gj.det
 
 data class Circle(val center: Point, val radius2: Double) {
     operator fun contains(point: Point) = (point - center).run { x * x + y * y } <= radius2
