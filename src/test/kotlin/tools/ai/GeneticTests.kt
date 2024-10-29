@@ -21,6 +21,14 @@ class GeneticTests {
         assertEquals(target, genetic(Genetic.CrossoverOperator.Uniform))
     }
 
+    @Test
+    fun testGeneticShift() {
+        val genetic = Genetic(10, gene = { nextInt() }) { 1f }
+        val i = genetic.Individual()
+        val shift = i.shift(2)
+        assertEquals(i.genes.drop(2), shift.genes.dropLast(2))
+    }
+
     private fun genetic(crossoverType: Genetic.CrossoverOperator): String {
         val genetic = Genetic(target.length, gene = { nextInt(26) }, crossoverType) { genes ->
             target.zip(genes.toResult()).count { it.first == it.second }.toFloat()
