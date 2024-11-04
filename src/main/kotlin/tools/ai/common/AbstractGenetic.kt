@@ -40,9 +40,10 @@ abstract class AbstractGenetic<G>(
     open fun selection(population: List<Individual>, random: Random): () -> List<G> =
         rouletteWheelSelection(population, random)
 
+    abstract fun individual(): Individual
     abstract fun crossover(a: MutableList<G>, b: MutableList<G>, random: Random, child: (MutableList<G>) -> Unit)
     abstract fun mutate(genes: MutableList<G>, random: Random)
-    
+
     private fun rouletteWheelSelection(population: List<Individual>, random: Random): () -> List<G> {
         val levels = population.map { it.fitness }.runningReduce { acc, f -> acc + f }
         val total = levels.last()

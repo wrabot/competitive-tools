@@ -1,5 +1,6 @@
 package tools.ai
 
+import tools.ai.common.CrossoverSelector
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -23,14 +24,14 @@ class IndependentGeneticTests {
 
     @Test
     fun testGeneticShift() {
-        val genetic = IndependentGenetic(10, gene = { nextInt() }, CrossoverSelector.Mono.selector) { 1f }
+        val genetic = IndependentGenetic(10, gene = { nextInt() }) { 1f }
         val i = genetic.individual()
         val shift = genetic.shift(i, 2)
         assertEquals(i.genes.drop(2), shift.genes.dropLast(2))
     }
 
     private fun genetic(crossoverType: CrossoverSelector): String {
-        val genetic = IndependentGenetic(target.length, gene = { nextInt(26) }, crossoverType.selector) { genes ->
+        val genetic = IndependentGenetic(target.length, gene = { nextInt(26) }, crossoverType) { genes ->
             target.zip(genes.toResult()).count { it.first == it.second }.toFloat()
         }
         val population = List(100) { genetic.individual() }
