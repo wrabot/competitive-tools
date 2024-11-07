@@ -8,11 +8,11 @@ class DoubleMatrix(private val cells: List<DoubleArray>) {
     val heightRange = cells.indices
     val width = cells.asSequence().map { it.size }.distinct().single()
     val widthRange = 0 until width
-    
+
     fun init(vararg values: Double) = apply { values.forEachIndexed { index, value -> cells[index / width][index % width] = value } }
     fun copy() = DoubleMatrix(height, width) { r, c -> cells[r][c] }
     fun onEach(action: (r: Int, c: Int, v: Double) -> Unit) = repeat(height) { r -> repeat(width) { c -> action(r, c, cells[r][c]) } }
-    
+
     operator fun get(r: Int, c: Int) = cells[r][c]
     operator fun set(r: Int, c: Int, v: Double) = cells[r].set(c, v)
     operator fun plus(other: DoubleMatrix) = DoubleMatrix(height, width) { r, c -> cells[r][c] + other.cells[r][c] }
