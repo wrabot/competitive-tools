@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.7.10")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.10")
 }
 
