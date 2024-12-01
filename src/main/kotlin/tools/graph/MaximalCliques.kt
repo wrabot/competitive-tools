@@ -1,7 +1,13 @@
 package tools.graph
 
-
-fun bronKerbosch(graph: Array<Set<Int>>, withPivot: Boolean) = mutableListOf<Set<Int>>().apply {
+/**
+ * A Bron-Kerbosch algorithm that finding all the maximal cliques.
+ * https://en.wikipedia.org/wiki/Bron-Kerbosch_algorithm
+ *
+ * @param graph the edges for each vertex.
+ * @param withPivot if true, more efficient for graphs with many non-maximal cliques.
+ */
+fun findAllMaximalCliques(graph: Array<Set<Int>>, withPivot: Boolean) = mutableListOf<Set<Int>>().apply {
     bronKerbosch(graph, withPivot, emptySet(), graph.indices.toSet(), emptySet())
 }
 

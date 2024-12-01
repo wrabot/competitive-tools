@@ -1,10 +1,23 @@
 package tools.graph
 
-data class EdmondsKarp(val size: Int, val edges: List<Edge>) {
+/**
+ * A Edmonds-Karp algorithm that finding the shortest paths with maximizes flow.
+ * https://en.wikipedia.org/wiki/Edmonds-Karp_algorithm
+ *
+ * @property size the number of vertices.
+ * @property edges the edges of graph.
+ */
+data class MaxFlow(val size: Int, val edges: List<Edge>) {
     class Edge(val source: Int, val destination: Int, val capacity: Int, var flow: Int = 0) {
         internal lateinit var rev: Edge
     }
 
+    /**
+     * Computes the max flow.
+     *
+     * @param source the index of source.
+     * @property sink the index of sink.
+     */
     fun maxFlow(source: Int, sink: Int): Int {
         var maxFlow = 0
         neighbors.forEach { n -> n.forEach { it.flow = 0 } }

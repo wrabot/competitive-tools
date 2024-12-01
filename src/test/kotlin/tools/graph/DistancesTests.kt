@@ -1,6 +1,6 @@
 package tools.graph
 
-import tools.graph.EdmondsKarp.Edge
+import tools.graph.MaxFlow.Edge
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -25,7 +25,7 @@ class DistancesTests {
 
     @Test
     fun testDistances() {
-        val distances = distances(10, 0) { neighbors[it].orEmpty() }
+        val distances = distancesFromOneToAll(10, 0) { neighbors[it].orEmpty() }
         assertEquals(listOf(0.0, 85.0, 217.0, 503.0, 173.0, 165.0, 403.0, 320.0, 415.0, 487.0), distances.toList())
     }
 }

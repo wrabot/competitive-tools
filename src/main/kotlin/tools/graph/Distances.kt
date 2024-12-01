@@ -1,6 +1,13 @@
 package tools.graph
 
-fun distances(size: Int, start: Int, neighbors: (Int) -> Map<Int, Double>): DoubleArray {
+/**
+ * Computes all distance from a vertex.
+ *
+ * @param size the number of vertices.
+ * @param start the index of the origin vertex.
+ * @param neighbors the neighbors of a vertex with their costs.
+ */
+fun distancesFromOneToAll(size: Int, start: Int, neighbors: (Int) -> Map<Int, Double>): DoubleArray {
     val distances = DoubleArray(size) { Double.POSITIVE_INFINITY }
     val comparator = Comparator<Int> { a, b -> distances[a].compareTo(distances[b]) }.thenBy { it }
     distances[start] = 0.0

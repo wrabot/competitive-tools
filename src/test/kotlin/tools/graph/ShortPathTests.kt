@@ -1,6 +1,6 @@
 package tools.graph
 
-import tools.graph.EdmondsKarp.Edge
+import tools.graph.MaxFlow.Edge
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

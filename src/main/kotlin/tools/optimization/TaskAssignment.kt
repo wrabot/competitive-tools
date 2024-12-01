@@ -1,14 +1,22 @@
-package tools.graph
+package tools.optimization
 
-// https://users.cs.duke.edu/~brd/Teaching/Bio/asmb/current/Handouts/munkres.html
-fun munkres(height: Int, width: Int, costs: (r: Int, c: Int) -> Int): List<Pair<Int, Int>> {
-    val transpose = height > width
+/**
+ * A Munkres (Hungarian) algorithm that solves the assignment problem in polynomial time.
+ * https://en.wikipedia.org/wiki/Hungarian_algorithm
+ * https://users.cs.duke.edu/~brd/Teaching/Bio/asmb/current/Handouts/munkres.html
+ *
+ * @param agents the number of agents.
+ * @param tasks the number of tasks.
+ * @param costs the task costs for each agent.
+ */
+fun taskAssignment(agents: Int, tasks: Int, costs: (agent: Int, task: Int) -> Int): List<Pair<Int, Int>> {
+    val transpose = agents > tasks
     val cost = if (transpose)
-        Array(width) { r -> IntArray(height) { c -> costs(c, r) } }
+        Array(tasks) { r -> IntArray(agents) { c -> costs(c, r) } }
     else
-        Array(height) { r -> IntArray(width) { c -> costs(r, c) } }
-    val h = if (transpose) width else height
-    val w = if (transpose) height else width
+        Array(agents) { r -> IntArray(tasks) { c -> costs(r, c) } }
+    val h = if (transpose) tasks else agents
+    val w = if (transpose) agents else tasks
     val mask = Array(h) { IntArray(w) }
     val rowCover = BooleanArray(h)
     val colCover = BooleanArray(w)

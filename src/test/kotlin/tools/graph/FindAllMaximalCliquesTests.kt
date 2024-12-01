@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class BronKerboshTests {
+class FindAllMaximalCliquesTests {
     private val graph = arrayOf(
         setOf(1, 2, 3, 4, 5),
         setOf(0, 2, 3, 4, 6),
@@ -20,7 +20,7 @@ class BronKerboshTests {
     
     @Test
     fun testCliqueWithoutPivot() {
-        val cliques = bronKerbosch(graph, false)
+        val cliques = findAllMaximalCliques(graph, false)
         assertEquals(
             listOf(
                 setOf(0, 1, 2, 3, 4),
@@ -36,7 +36,7 @@ class BronKerboshTests {
 
     @Test
     fun testCliqueWithPivot() {
-        val cliques = bronKerbosch(graph, true)
+        val cliques = findAllMaximalCliques(graph, true)
         assertEquals(
             listOf(
                 setOf(0, 1, 2, 3, 4),

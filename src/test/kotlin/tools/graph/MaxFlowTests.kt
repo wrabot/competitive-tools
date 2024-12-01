@@ -1,11 +1,11 @@
 package tools.graph
 
-import tools.graph.EdmondsKarp.Edge
+import tools.graph.MaxFlow.Edge
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class EdmondsKarpTests {
+class MaxFlowTests {
     private val edges = listOf(
         Edge(0, 1, 3),
         Edge(0, 3, 3),
@@ -20,7 +20,7 @@ class EdmondsKarpTests {
         Edge(5, 6, 9),
     )
 
-    private val edmondsKarp = EdmondsKarp(7, edges)
+    private val edmondsKarp = MaxFlow(7, edges)
 
     @Test
     fun testMaxFlow1() {
