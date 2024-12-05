@@ -1,3 +1,3 @@
 package tools.text
 
-fun String.toInts() = trim().split(" ").map { it.toInt() }
+fun String.toInts(delimiter: String = " ") = trim().split(delimiter).map { it.toInt() }
