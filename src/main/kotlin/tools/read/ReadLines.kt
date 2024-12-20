@@ -1,3 +1,3 @@
 package tools.read
 
-fun readLines(count: Int) = (0 until count).map { readln() }
+fun readLines(count: Int = readln().toInt()) = List(count) { readln() }
