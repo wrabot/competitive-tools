@@ -1,5 +1,12 @@
 package tools.graph
 
+/**
+ * Breadth First Search
+ *
+ * @param size number of vertices.
+ * @param start starting vertex.
+ * @param neighbors the edges from one vertex.
+ */
 fun bfs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>?) {
     val todo = mutableListOf(start)
     val discovered = BooleanArray(size)
@@ -15,6 +22,13 @@ fun bfs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>?) {
     }
 }
 
+/**
+ * Depth First Search
+ *
+ * @param size number of vertices.
+ * @param start starting vertex.
+ * @param neighbors the edges from one vertex.
+ */
 fun dfs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>?) {
     val todo = mutableListOf(start)
     val visited = BooleanArray(size)
@@ -26,6 +40,15 @@ fun dfs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>?) {
     }
 }
 
+/**
+ * Maximum Cardinality Search
+ * visits the vertices in such an order that every time the vertex with the most already visited neighbors is visited
+ * The algorithm provides a simple basis for deciding whether a graph is chordal
+ *
+ * @param size number of vertices.
+ * @param start starting vertex.
+ * @param neighbors the edges from one vertex.
+ */
 fun mcs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>) {
     val weights = IntArray(size)
     weights[start] = 1
