@@ -5,7 +5,7 @@ fun <Node : Any> shortPath(
     end: Node,
     cost: (from: Node, to: Node) -> Double = { _, _ -> 1.0 },
     estimatedEndCost: (Node) -> Double = { 0.0 }, // A*
-    neighbors: (Node) -> List<Node>
+    neighbors: (Node) -> Collection<Node>
 ) = shortPath(start, isEnd = { it == end }, cost, estimatedEndCost, neighbors)
 
 fun <Node : Any> shortPath(
@@ -13,7 +13,7 @@ fun <Node : Any> shortPath(
     isEnd: (Node) -> Boolean,
     cost: (from: Node, to: Node) -> Double = { _, _ -> 1.0 },
     toEndMinimalCost: (Node) -> Double = { 0.0 }, // A*
-    neighbors: (Node) -> List<Node>
+    neighbors: (Node) -> Collection<Node>
 ): List<Node> {
     val spStart = ShortPathNode(start, 0.0, toEndMinimalCost(start), true)
     val spNodes = mutableMapOf(start to spStart)

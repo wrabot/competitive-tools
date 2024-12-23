@@ -1,6 +1,6 @@
 package tools.graph
 
-fun bfs(size: Int, start: Int, neighbors: (Int) -> List<Int>?) {
+fun bfs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>?) {
     val todo = mutableListOf(start)
     val discovered = BooleanArray(size)
     discovered[start] = true
@@ -15,7 +15,7 @@ fun bfs(size: Int, start: Int, neighbors: (Int) -> List<Int>?) {
     }
 }
 
-fun dfs(size: Int, start: Int, neighbors: (Int) -> List<Int>?) {
+fun dfs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>?) {
     val todo = mutableListOf(start)
     val visited = BooleanArray(size)
     while (true) {
@@ -26,7 +26,7 @@ fun dfs(size: Int, start: Int, neighbors: (Int) -> List<Int>?) {
     }
 }
 
-fun mcs(size: Int, start: Int, neighbors: (Int) -> List<Int>) {
+fun mcs(size: Int, start: Int, neighbors: (Int) -> Collection<Int>) {
     val weights = IntArray(size)
     weights[start] = 1
     repeat(size) {
