@@ -22,18 +22,19 @@ class Board<T>(val width: Int, val height: Int, val cells: List<T>) {
 
     inline fun forEach(action: (xy: XY, cell: T) -> Unit) = xy.forEachIndexed { index, xy -> action(xy, cells[index]) }
 
+    fun isValid(x: Int, y: Int) = x in xRange && y in yRange
+    fun indexOf(x: Int, y: Int) = if (isValid(x, y)) y * width + x else null
     fun getOrNull(x: Int, y: Int) = if (isValid(x, y)) cells[y * width + x] else null
     operator fun get(x: Int, y: Int) =
         getOrNull(x, y) ?: throw IllegalArgumentException("invalid cell : x=$x y=$y width=$width height=$height")
 
-    fun indexOf(xy: XY) = if (isValid(xy.x, xy.y)) xy.y * width + xy.x else null
+    fun isValid(xy: XY) = isValid(xy.x, xy.y)
+    fun indexOf(xy: XY) = indexOf(xy.x, xy.y)
     fun getOrNull(xy: XY) = getOrNull(xy.x, xy.y)
     operator fun get(xy: XY) = get(xy.x, xy.y)
 
     fun neighbors4(xy: XY) = xy.neighbors4().filter { isValid(it.x, it.y) }
     fun neighbors8(xy: XY) = xy.neighbors8().filter { isValid(it.x, it.y) }
-
-    private fun isValid(x: Int, y: Int) = x in xRange && y in yRange
 }
 
 fun <T> List<String>.toBoard(cell: (Char) -> T) = Board(get(0).length, size, flatMap { it.map(cell) })
