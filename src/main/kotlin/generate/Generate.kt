@@ -113,6 +113,7 @@ private val environment by lazy {
     KotlinCoreEnvironment.createForProduction(
         Disposer.newDisposable(),
         CompilerConfiguration().apply {
+            addKotlinSourceRoot("src/main/kotlin")
             addKotlinSourceRoot("src/test/kotlin")
             addKotlinSourceRoot("$tools/competitive-tools/src/main/kotlin")
         },
