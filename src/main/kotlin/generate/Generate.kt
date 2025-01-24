@@ -34,7 +34,9 @@ fun generateFile(packageName: String, className: String, methodName: String, gen
         *files.flatMap { file -> file.findChildrenByClass(KtNamedDeclaration::class.java).map { it.text } }
             .toTypedArray()
     )
-    File("build/generated.kt").writeText(generated.format(compact))
+    val text = generated.format(compact)
+    File("build/generated.kt").writeText(text)
+    ProcessBuilder("pbcopy").start().apply { outputWriter().apply { write(text) }.close() }.waitFor()
 }
 
 private fun List<String>.format(compact: Boolean) = if (compact) {
